@@ -10,7 +10,7 @@
 
 # Setup
 ```
-git clone . new-app
+git clone https://github.com/cmmille/react-template.git new-app
 // change name in package.json too
 
 cd ./new-app
