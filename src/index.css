@@ -7,6 +7,6 @@
   margin: 0;
 }
 
-a {
-  @apply text-s2 hover:text-s1 hover:underline
+#root, html, body {
+  @apply w-full h-full bg-green-200 font-sans; 
 }
