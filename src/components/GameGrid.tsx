@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Cell from "./Cell";
 import { Icon } from "../types/Icon";
 import { Color, ALL_COLORS } from "../types/Color";
@@ -30,7 +30,26 @@ const GameGrid: React.FC<Props> = ({ width, height, symbol }) => {
   };
 
   const numCells = width * height;
-  const grid = generateGrid(numCells);
+  const [grid, setGrid] = useState<Color[]>(generateGrid(numCells));
+  const [selectedCells, setSelectedCells] = useState<number[]>([]);
+
+  const handleCellClick = (index: number) => {
+    setSelectedCells((selected) => [...selected, index]);
+  };
+
+  if (selectedCells.length === 2) {
+    const [index1, index2] = selectedCells;
+    const color1 = grid[index1];
+    const color2 = grid[index2];
+    if (color1 === color2) {
+      // Remove matched cells from grid
+      const newGrid = grid.slice();
+      newGrid.splice(index1, 1);
+      newGrid.splice(index2 < index1 ? index2 : index2 - 1, 1);
+      setGrid(newGrid);
+    }
+    setSelectedCells([]);
+  }
 
   return (
     <div className="w-full flex items-center justify-center max-w-4xl m-auto overflow-aut p-4">
@@ -43,8 +62,8 @@ const GameGrid: React.FC<Props> = ({ width, height, symbol }) => {
             key={index}
             symbol={symbol}
             color={color}
-            selected={false}
-            onClick={() => console.log("clicked")}
+            selected={selectedCells.includes(index)}
+            onClick={() => handleCellClick(index)}
           />
         ))}
       </div>
