@@ -9,18 +9,28 @@ interface Props {
   symbol: Icon;
 }
 
+function randomColor(): Color {
+  const colors = ALL_COLORS;
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex] as Color;
+}
+
+function generateGrid(numCells: number): Color[] {
+  const grid: Color[] = [];
+  for (let i = 0; i < numCells; i++) {
+    grid.push(randomColor());
+  }
+  return grid;
+}
+
 const GameGrid: React.FC<Props> = ({ width, height, symbol }) => {
-  const numCells = width * height;
   const style = {
     gridTemplateColumns: `repeat(${width}, 1fr)`,
     gridTemplateRows: `repeat(${height}, 1fr)`,
   };
 
-  function randomColor() : Color {
-    const colors = ALL_COLORS
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex] as Color;
-  }
+  const numCells = width * height;
+  const grid = generateGrid(numCells);
 
   return (
     <div className="w-full flex items-center justify-center max-w-4xl m-auto overflow-aut p-4">
@@ -28,11 +38,11 @@ const GameGrid: React.FC<Props> = ({ width, height, symbol }) => {
         className={`bg-gray-800 rounded-lg p-2 grid gap-2 w-min`}
         style={style}
       >
-        {Array.from({ length: numCells }).map((_, index) => (
+        {grid.map((color, index) => (
           <Cell
             key={index}
             symbol={symbol}
-            color={randomColor()}
+            color={color}
             selected={false}
             onClick={() => console.log("clicked")}
           />
