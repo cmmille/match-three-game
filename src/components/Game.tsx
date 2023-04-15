@@ -11,7 +11,7 @@ const Game: React.FC = () => {
       ) : (
         <div className="flex flex-col w-full">
           <h1 className="text-4xl text-green-500 font-bold text-center">In Progress</h1>
-          <GameGrid width={8} height={8} symbol="flower"/>
+          <GameGrid width={6} height={6} symbol="flower"/>
         </div>
       )}
     </div>

@@ -10,7 +10,8 @@ interface Props {
   selected: boolean;
   symbol: Icon;
   color: Color;
-  onClick: () => void;
+  onClick: (coords: { x: number; y: number }) => void;
+  coords: { x: number; y: number };
 }
 
 const symbols = {
@@ -20,24 +21,22 @@ const symbols = {
   jewel: <FaGem />,
 };
 
-const colors = {
-  red: "text-red-700",
-  blue: "text-blue-700",
-  green: "text-green-700",
-  yellow: "text-yellow-500",
-  purple: "text-purple-700",
-  cyan: "text-cyan-600",
-};
+const Cell: React.FC<Props> = ({
+  symbol,
+  color,
+  selected,
+  onClick,
+  coords,
+}) => {
+  const colorClass = color ? color.class : "text-gray-400";
 
-const Cell: React.FC<Props> = ({ symbol, color, selected, onClick }) => {
-  const colorName = colors[color];
   return (
     <div
       className={`rounded-lg h-10 w-10 flex items-center justify-center text-4xl 
-        ${colorName} 
+        ${colorClass} 
         ${selected ? "bg-white" : "bg-gray-400"}
       `}
-      onClick={onClick}
+      onClick={() => onClick(coords)}
     >
       {symbols[symbol]}
     </div>
